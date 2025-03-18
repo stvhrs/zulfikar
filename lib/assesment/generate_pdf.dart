@@ -48,7 +48,9 @@ Future<Uint8List> printAll(Quiz quiz, String name, String school) async {
 
   final double percentageScore = (quiz.questions
               .where(
-                (element) => element.selectedWiidgetOption!.isCorrect!,
+                (element) => element.selectedWiidgetOption == null
+                    ? false
+                    : element.selectedWiidgetOption!.isCorrect!,
               )
               .toList()
               .length /
@@ -60,7 +62,6 @@ Future<Uint8List> printAll(Quiz quiz, String name, String school) async {
     base: Font.ttf(await rootBundle.load("fonts/arial.ttf")),
     fontFallback: [
       Font.ttf(await rootBundle.load("fonts/NotoSansMath-Regular.ttf")),
-      Font.ttf(await rootBundle.load("fonts/NotoSansJavanese-Regular.ttf")),
     ],
   );
   widgets.add(Padding(
@@ -139,72 +140,83 @@ Future<Uint8List> printAll(Quiz quiz, String name, String school) async {
                               data.htmlText,
                               softWrap: true,
                             )),
-                        Column(
-                          children: data.options.mapIndexed((j, e) {
-                            final letters =
-                                optionsLetters[data.options.indexOf(e)];
-                            var questionOption = e;
+                             Text(
+                               "\nJawab:\n"+ data.userAnswer!,
+                                style: TextStyle(
+                                    fontSize: 11, ),
+                              ),
+                        data.type == QuestionType.essay
+                            ? Text(
+                               "\nPembahasan:\n"+ data.pembahasan,
+                                style: TextStyle(
+                                    fontSize: 11, ),
+                              )
+                            : Column(
+                                children: data.options.mapIndexed((j, e) {
+                                  final letters =
+                                      optionsLetters[data.options.indexOf(e)];
+                                  var questionOption = e;
 
-                            return (questionOption.text!.isEmpty &&
-                                        letters == "E." ||
-                                    questionOption.text!.isEmpty &&
-                                        letters == "D.")
-                                ? SizedBox()
-                                : Container(
-                                    child: Container(
-                                      margin: const EdgeInsets.symmetric(
-                                          vertical: 0),
-                                      decoration: const BoxDecoration(
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(10)),
-                                      ),
-                                      child: Row(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            ("$letters" "")
-                                              ..runes.map((int rune) {
-                                                return rune
-                                                    .toRadixString(16)
-                                                    .padLeft(4, '0');
-                                              }).toList(),
-                                            style: const TextStyle(
-                                              fontSize: 11,
+                                  return (questionOption.text!.isEmpty &&
+                                              letters == "E." ||
+                                          questionOption.text!.isEmpty &&
+                                              letters == "D.")
+                                      ? SizedBox()
+                                      : Container(
+                                          child: Container(
+                                            margin: const EdgeInsets.symmetric(
+                                                vertical: 0),
+                                            decoration: const BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(10)),
+                                            ),
+                                            child: Row(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  ("$letters" "")
+                                                    ..runes.map((int rune) {
+                                                      return rune
+                                                          .toRadixString(16)
+                                                          .padLeft(4, '0');
+                                                    }).toList(),
+                                                  style: const TextStyle(
+                                                    fontSize: 11,
+                                                  ),
+                                                ),
+                                                Text(
+                                                  questionOption.text!,
+                                                  style: const TextStyle(
+                                                      fontSize: 11),
+                                                ),
+                                                (questionOption.isCorrect!)
+                                                    ? Text(
+                                                        " Benar",
+                                                        style: TextStyle(
+                                                            fontSize: 11,
+                                                            color: green),
+                                                      )
+                                                    : (questionOption ==
+                                                            quiz.questions
+                                                                .map(
+                                                                  (e) => e
+                                                                      .selectedWiidgetOption,
+                                                                )
+                                                                .toList()[i])
+                                                        ? Text(
+                                                            " Salah",
+                                                            style: TextStyle(
+                                                                fontSize: 11,
+                                                                color: red),
+                                                          )
+                                                        : SizedBox()
+                                              ],
                                             ),
                                           ),
-                                          Text(
-                                            questionOption.text!,
-                                            style:
-                                                const TextStyle(fontSize: 11),
-                                          ),
-                                          (questionOption.isCorrect!)
-                                              ? Text(
-                                                  " Benar",
-                                                  style: TextStyle(
-                                                      fontSize: 11,
-                                                      color: green),
-                                                )
-                                              : (questionOption ==
-                                                      quiz.questions
-                                                          .map(
-                                                            (e) => e
-                                                                .selectedWiidgetOption,
-                                                          )
-                                                          .toList()[i])
-                                                  ? Text(
-                                                      " Salah",
-                                                      style: TextStyle(
-                                                          fontSize: 11,
-                                                          color: red),
-                                                    )
-                                                  : SizedBox()
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                          }).toList(),
-                        ),
+                                        );
+                                }).toList(),
+                              ),
                       ],
                     ),
                   )

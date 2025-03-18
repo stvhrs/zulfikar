@@ -229,7 +229,7 @@ class _ResultState extends State<Result> {
                                   const EdgeInsets.symmetric(horizontal: 24),
                               alignment: Alignment.center,
                               padding: const EdgeInsets.symmetric(
-                                  vertical: 12, horizontal: 40),
+                                  vertical: 5, horizontal: 40),
                               width: double.infinity,
                               child: const Text(
                                 'Ke beranda',

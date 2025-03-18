@@ -6,9 +6,8 @@ import 'package:zulfikar/assesment/hasil.dart';
 import 'package:zulfikar/assesment/model/quiz.dart';
 
 class Assesmen extends StatefulWidget {
-  final Color color;
   final Quiz data;
-  const Assesmen({super.key, required this.data, required this.color});
+  const Assesmen({super.key, required this.data, });
 
   @override
   State<Assesmen> createState() => _AssesmenState();
@@ -107,10 +106,10 @@ class _AssesmenState extends State<Assesmen> {
                                 data!.questions[_questionNumber - 1].type ==
                                         QuestionType.essay &&
                                     data!.questions[_questionNumber - 1]
-                                            .userAnswer!.isEmpty)
+                                        .userAnswer!.isEmpty)
                             ? Colors.grey
                             : _questionNumber < data!.questions.length
-                                ? widget.color
+                                ?Theme.of(context).primaryColor
                                 : Colors.green),
                     fixedSize: WidgetStateProperty.all(
                       Size(MediaQuery.sizeOf(context).width * 0.40, 40),
@@ -124,7 +123,8 @@ class _AssesmenState extends State<Assesmen> {
                                   null ||
                           data!.questions[_questionNumber - 1].type ==
                                   QuestionType.essay &&
-                              data!.questions[_questionNumber - 1].userAnswer!.isEmpty)
+                              data!.questions[_questionNumber - 1].userAnswer!
+                                  .isEmpty)
                       ? null
                       : () {
                           if (_questionNumber < data!.questions.length) {
@@ -172,7 +172,7 @@ class _AssesmenState extends State<Assesmen> {
                                   correctAnswer: correct,
                                   wrongAnser: wrong,
                                   waktu: Duration(seconds: counter).inMinutes,
-                                  color: widget.color,
+                                  color:Theme.of(context).primaryColor,
                                   data: data!,
                                   judul: "Energi Terbarukan",
                                   points: (correct * 2) + uraian),
@@ -199,94 +199,94 @@ class _AssesmenState extends State<Assesmen> {
         appBar: PreferredSize(
           preferredSize:
               Size.fromHeight(MediaQuery.of(context).size.height * 0.2),
-          child: Container(color: widget.color,
-              padding: const EdgeInsets.only(left: 0, right: 0,top: 30),
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 14, bottom: 5),
-                      child: Row(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(15.0),
-                            child: GestureDetector(
-                                onTap: () {
-                                  Navigator.of(context).pop();
-                                },
-                                child: const Center(
-                                  child: Icon(
-                                    Icons.arrow_back_rounded,
-                                    color: Color.fromRGBO(249, 249, 249, 1),
-                                    size: 20,
-                                    weight: 100,
-                                  ),
-                                )),
+          child: Container(
+            color:Theme.of(context).primaryColor,
+            padding: const EdgeInsets.only(left: 0, right: 0, top: 30),
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 14, bottom: 5),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: const Center(
+                                child: Icon(
+                                  Icons.arrow_back_rounded,
+                                  color: Color.fromRGBO(249, 249, 249, 1),
+                                  size: 20,
+                                  weight: 100,
+                                ),
+                              )),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 10,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              left: 10,
-                            ),
-                            child: SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.7,
-                              child: Text(
-                                data?.namaBab ?? "",
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyLarge!
-                                    .copyWith(
-                                        color: const Color.fromRGBO(
-                                            249, 249, 249, 1),
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w400),
-                                overflow: TextOverflow.ellipsis,
-                              ),
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.7,
+                            child: Text(
+                              data?.namaBab ?? "",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                      color: const Color.fromRGBO(
+                                          249, 249, 249, 1),
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w400),
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  ClipRect(
+                    clipper: const ClipPad(padding: EdgeInsets.only(top: 30)),
+                    child: Container(
+                      padding:
+                          const EdgeInsets.only(top: 10, left: 10, right: 10),
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        borderRadius: const BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          topLeft: Radius.circular(20),
+                        ),
+                        color: const Color.fromRGBO(249, 249, 249, 1),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.24),
+                            blurRadius: 10.0,
+                            offset: const Offset(10.0, 0),
+                            spreadRadius: 2,
+                          )
                         ],
                       ),
-                    ),
-                    ClipRect(
-                      clipper: const ClipPad(padding: EdgeInsets.only(top: 30)),
-                      child: Container(
-                        padding:
-                            const EdgeInsets.only(top: 10, left: 10, right: 10),
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(20),
-                            topLeft: Radius.circular(20),
-                          ),
-                          color: const Color.fromRGBO(249, 249, 249, 1),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.24),
-                              blurRadius: 10.0,
-                              offset: const Offset(10.0, 0),
-                              spreadRadius: 2,
-                            )
-                          ],
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(4.0),
-                          child: Center(
-                            child: Text(
-                              "Pertanyaan  $_questionNumber/${data?.questions.length ?? "0"}",
-                              style: TextStyle(
-                                  fontSize: 14, color: Colors.grey.shade500),
-                            ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(4.0),
+                        child: Center(
+                          child: Text(
+                            "Pertanyaan  $_questionNumber/${data?.questions.length ?? "0"}",
+                            style: TextStyle(
+                                fontSize: 14, color: Colors.grey.shade500),
                           ),
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
-        
+        ),
         body: Container(
           color: const Color.fromRGBO(249, 249, 249, 1),
           padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -304,15 +304,19 @@ class _AssesmenState extends State<Assesmen> {
             itemBuilder: (context, index) {
               final WidgetQuestion myquestions = data!.questions[index];
               if (myquestions.type == QuestionType.essay) {
-                return ListView(padding: const EdgeInsets.all(8.0),
+                return ListView(
+                  padding: const EdgeInsets.all(8.0),
                   children: [
                     Text(
                       myquestions.htmlText,
                     ),
                     Padding(
                       padding: const EdgeInsets.only(top: 15),
-                      child: TextFormField(maxLines: 10,
-                        decoration: InputDecoration(hintText: "Jawaban",),
+                      child: TextFormField(
+                        maxLines: 10,
+                        decoration: InputDecoration(
+                          hintText: "Jawaban",
+                        ),
                         initialValue:
                             data!.questions[_questionNumber - 1].userAnswer,
                         onChanged: (v) {

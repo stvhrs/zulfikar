@@ -134,7 +134,6 @@ class _CustomButtonState2 extends State<CustomButton2> {
           await Future.delayed(const Duration(milliseconds: 70));
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) => Assesmen(
-                  color: Colors.blue,
                   data: asesmen)));
         },
         onTapUp: (_) {
