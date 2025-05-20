@@ -160,7 +160,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_carousel_widget/flutter_carousel_widget.dart';
+import 'package:provider/provider.dart';
 import 'package:zulfikar/home/home.dart';
+import 'package:zulfikar/state/science_state.dart';
 import 'package:zulfikar/theme.dart';
 
 void main() async {
@@ -186,7 +188,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Zulfikar',
       theme: myTheme,
-      home: MyHomePage(),
+      home: ChangeNotifierProvider(
+      create: (context) => ScienceState(),
+      child: MyApp(),
+    ),
     );
   }
 }

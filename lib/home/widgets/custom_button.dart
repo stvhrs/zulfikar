@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:zulfikar/assesment/asssment.dart';
 import 'package:zulfikar/assesment/model/quiz.dart';
+import 'package:zulfikar/home/materi_page.dart';
 
 class CustomButton extends StatefulWidget {
   @override
@@ -32,6 +33,9 @@ class _CustomButtonState extends State<CustomButton> {
               setState(() {
                 _position = 4;
               });
+              Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => MateriPage(),
+              ));
               await Future.delayed(const Duration(milliseconds: 70));
             },
             onTapUp: (_) {
@@ -132,9 +136,8 @@ class _CustomButtonState2 extends State<CustomButton2> {
             _position = 4;
           });
           await Future.delayed(const Duration(milliseconds: 70));
-          Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) => Assesmen(
-                  data: asesmen)));
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => Assesmen(data: asesmen)));
         },
         onTapUp: (_) {
           setState(() {
