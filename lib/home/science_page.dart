@@ -1,49 +1,71 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:zulfikar/home/pre_test_science.dart';
 import 'package:zulfikar/state/science_state.dart';
 
-class SciencePage extends StatelessWidget {
+class SciencePage extends StatefulWidget {
+  @override
+  _SciencePageState createState() => _SciencePageState();
+}
+
+class _SciencePageState extends State<SciencePage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize the TabController
+    final scienceState = Provider.of<ScienceState>(context, listen: false);
+    _tabController = TabController(
+      length: 6,
+      vsync: this,
+      initialIndex: scienceState.currentIndex,
+    );
+
+    // Listen for tab index changes and update the state
+    _tabController.addListener(() {
+      if (_tabController.indexIsChanging) {
+        scienceState.setCurrentIndex(_tabController.index);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _tabController
+        .dispose(); // Dispose of the TabController to prevent memory leaks
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Buku Pendamping Siswa - Energi dan Energi Terbarukan'),
-        bottom: PreferredSize(
-          preferredSize: Size.fromHeight(50.0),
-          child: Consumer<ScienceState>(
-            builder: (context, scienceState, child) {
-              return TabBar(
-                isScrollable: true,  // Membuat TabBar menjadi scrollable
-                onTap: (index) {
-                  scienceState.setCurrentIndex(index);  // Update tab yang aktif
-                },
-                controller: TabController(
-                  length: 5,
-                  vsync: ScaffoldState(),
-                  initialIndex: scienceState.currentIndex,
-                ),
-                tabs: [
-                  Tab(text: 'Energi dalam Fisika'),
-                  Tab(text: 'Konsep Energi Kinetik'),
-                  Tab(text: 'Konsep Energi Potensial Gravitasi'),
-                  Tab(text: 'Energi Potensial Pegas'),
-                  Tab(text: 'Pertanyaan Pemantik'),
-                ],
-              );
-            },
+    return Consumer<ScienceState>(builder: (context, scienceState, child) {
+      return Scaffold(
+          appBar: AppBar(
+            title: Text('Science - Energi dan Energi Terbarukan'),
+            bottom: PreferredSize(
+                preferredSize: Size.fromHeight(50.0),
+                child: TabBar(
+                  labelColor:scienceState.color,
+                  indicatorColor: scienceState.color,
+                  tabAlignment: TabAlignment.start,
+                  isScrollable: true, // Makes the TabBar scrollable
+                  controller: _tabController,
+                  tabs: [
+                    Tab(text: 'Pre Test'),
+                    Tab(text: 'Energi dalam Fisika'),
+                    Tab(text: 'Konsep Energi Kinetik'),
+                    Tab(text: 'Konsep Energi Potensial Gravitasi'),
+                    Tab(text: 'Energi Potensial Pegas'),
+                    Tab(text: 'Pertanyaan Pemantik'),
+                  ],
+                )),
           ),
-        ),
-      ),
-      body: Consumer<ScienceState>(
-        builder: (context, scienceState, child) {
-          return TabBarView(
-            controller: TabController(
-              length: 5,
-              vsync: ScaffoldState(),
-              initialIndex: scienceState.currentIndex,
-            ),
+          body: TabBarView(
+            controller: _tabController,
             children: [
-              // Tab 1: Energi dalam Fisika
+              PreTestScience(),
               ListView(
                 padding: EdgeInsets.all(16.0),
                 children: [
@@ -53,7 +75,7 @@ class SciencePage extends StatelessWidget {
                   ),
                   SizedBox(height: 10),
                   Text(
-                    'Energi adalah kemampuan untuk melakukan usaha atau menyebabkan perubahan. Dalam fisika, energi dipahami sebagai kemampuan untuk melakukan usaha atau menyebabkan perubahan...',
+                    'Energi adalah kemampuan untuk melakukan usaha atau menyebabkan perubahan...',
                     style: TextStyle(fontSize: 16),
                   ),
                 ],
@@ -126,9 +148,7 @@ class SciencePage extends StatelessWidget {
                 ],
               ),
             ],
-          );
-        },
-      ),
-    );
+          ));
+    });
   }
 }

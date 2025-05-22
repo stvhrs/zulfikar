@@ -175,7 +175,9 @@ void main() async {
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
-  return runApp(const MyApp());
+  return runApp( ChangeNotifierProvider(
+      create: (context) => ScienceState(),
+      child:MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -188,10 +190,8 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Zulfikar',
       theme: myTheme,
-      home: ChangeNotifierProvider(
-      create: (context) => ScienceState(),
-      child: MyApp(),
-    ),
+      home:  MyHomePage(),
+    
     );
   }
 }

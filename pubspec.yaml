@@ -29,6 +29,7 @@ dependencies:
   
   pdf: any
   printing: any
+  youtube_player_iframe: ^5.2.1
 dev_dependencies:
   flutter_test:
     sdk: flutter
